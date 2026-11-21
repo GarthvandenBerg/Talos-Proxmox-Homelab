@@ -23,3 +23,35 @@ subjects:
   - kind: ServiceAccount
     name: longhorn-service-account
     namespace: longhorn-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: longhorn-manager-binding
+  namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: longhorn
+subjects:
+  - kind: ServiceAccount
+    name: longhorn-service-account
+    namespace: longhorn-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: longhorn-csi-role-binding
+  namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: longhorn-csi-role
+subjects:
+  - kind: ServiceAccount
+    name: longhorn-csi-service-account
+    namespace: longhorn-system
