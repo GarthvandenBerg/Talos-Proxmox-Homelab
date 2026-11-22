@@ -163,3 +163,4 @@ Personal data comes back from the off-site NAS and B2. The cluster needs new Pro
 | :--- | :-: | :--- | :--- | :--- | :--- |
 | Oct 2026 | 1 | not recorded | Cluster rebuilt, DBs recovered from S3 | No Data | N/A |
 | Nov 19 2026 | 2 | 9:41 -> 10:51 | Cluster Rebuilt - fully deleted VM's and rebuilt, restored DB's from S3 | Outdated Talos image on Proxmox host, helm repo not updated on provisioning machine, ESO CRD's missing when trying to sync | Installed new Talos image, helm update, changed ArgoCD Sync wave for ESO CRDs and Kube-prom-stack CRDs|
+| Nov 22 2026 | 2 | 17:10 -> 17:43 | Cluster Rebuilt - Clean rebuild, I had to manually sync the Monitoring apps again0 | Manually synced Monitoring "app" in ArgoCD, otherwise went really smoothly.  |

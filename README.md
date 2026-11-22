@@ -362,7 +362,7 @@ terraform apply
 
 Terraform creates the VMs, installs Talos, bootstraps etcd, installs Cilium, Longhorn and ArgoCD, and applies the root app.
 
-**3. ArgoCD**
+**3. ArgoCD - If you don't have your password set in OpenBao, also for troublshooting**
 
 ```bash
 kubectl -n argocd-system get secret argocd-initial-admin-secret \
@@ -370,8 +370,6 @@ kubectl -n argocd-system get secret argocd-initial-admin-secret \
 ```
 
 UI at `192.168.2.206` (set in `infrastructure/base/argocd/argocd-values`).
-
-**4. Secrets:** run the [OpenBao bootstrap](#-secrets-management) above. Creating the `openbao-approle` secret is a manual step.
 
 </details>
 
