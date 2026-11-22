@@ -30,7 +30,7 @@ A five-node Talos Linux Kubernetes cluster on a two-node Proxmox VE cluster. I b
 | **Secrets** | OpenBao (outside the cluster) → External Secrets Operator → Kubernetes Secrets. No plaintext secrets in Git. |
 | **Networking** | Cilium (kube-proxy replacement, Gateway API, LB IPAM). Public websites via Cloudflare Tunnel (CFGate). Private apps via NetBird. No inbound ports are open. |
 | **Workloads** | Immich (the only app used by friends and family), personal websites, Minecraft, Authentik, Renovate, Prometheus/Grafana, Coroot |
-| **Restore drills** | Full cluster rebuild from Terraform + Git with databases restored from S3 (November 19 2026). Not every layer has been drilled. See [Backups & DR](#-backups--disaster-recovery) and the [DR plan](docs/disaster-recovery.md). |
+| **Restore drills** | Full cluster rebuild from Terraform + Git with databases Check the docs for last restore (DR Plan). Not every layer has been drilled. See [Backups & DR](#-backups--disaster-recovery) and the [DR plan](docs/disaster-recovery.md). |
 
 ---
 
@@ -313,8 +313,8 @@ The full plan, with runbooks per failure scenario and a drill log, is in [`docs/
 
 | Layer | What | Where | Schedule / retention | Restore documented | Last drill |
 | :--- | :--- | :--- | :--- | :---: | :--- |
-| Cluster | Everything in Git, rebuilt with Terraform | GitHub + Terraform state on NAS | n/a (rebuilt, not restored) | ✅ | Full rebuild, Nov 19 2026 |
-| CNPG (Barman) | Base backups + continuous WAL | MinIO on TrueNAS, `s3://database-backup/<db>` | See below | ✅ | Restored in the Nov 19 2026 rebuild |
+| Cluster | Everything in Git, rebuilt with Terraform | GitHub + Terraform state on NAS | n/a (rebuilt, not restored) | ✅ | Check [`docs/disaster-recovery.md`](docs/disaster-recovery.md) |
+| CNPG (Barman) | Base backups + continuous WAL | MinIO on TrueNAS, `s3://database-backup/<db>` | See below | ✅ | [`docs/disaster-recovery.md`](docs/disaster-recovery.md) |
 | OpenBao | Whole-VM backup + Raft snapshot | PBS + cron snapshot | Daily snapshot | ✅ | Not yet timed |
 | etcd / Talos | Not backed up, by design | n/a | n/a | ✅ (rebuild) | n/a |
 | Longhorn | Backup target configured, no volumes in use | n/a | n/a | n/a | n/a |
