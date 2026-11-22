@@ -31,7 +31,7 @@ spec:
         fsGroup: 101
       containers:
         - name: web
-          image: ghcr.io/garthvandenberg/g-space-site:latest
+          image: ghcr.io/garthvandenberg/g-space-site:sha-ed5df85
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
