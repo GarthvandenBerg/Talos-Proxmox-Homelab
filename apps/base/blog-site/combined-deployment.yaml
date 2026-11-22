@@ -31,7 +31,7 @@ spec:
         fsGroup: 101
       containers:
         - name: web
-          image: ghcr.io/garthvandenberg/g-space-site:sha-ed5df85
+          image: ghcr.io/garthvandenberg/g-space-site:sha-c51c713 # renovate: datasource=docker depName=ghcr.io/garthvandenberg/g-space-site
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
