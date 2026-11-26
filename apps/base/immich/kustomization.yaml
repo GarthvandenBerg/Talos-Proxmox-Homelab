@@ -1,6 +1,28 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./immich/application.yaml
-  - ./immich/immich-db-secret-sync.yaml
-  - ./immich/immich-storage.yaml
+  - ./immich-db-secret-sync.yaml
+  - ./immich-storage.yaml
+  - ./namespace.yaml
+
+helmCharts:
+  - name: immich
+    repo: ghcr.io/immich-app/immich-charts
+    version: 0.13.4
+    releaseName: immich
+    namespace: immich
+    valuesFile: immich-values.yaml
+
+patches:
+  - target:
+      labelSelector: app.kubernetes.io/instance=immich
+    patch: |
+      - op: add
+        path: /metadata/annotations/argocd.argoproj.io~1sync-wave
+        value: "5"
+  - target:
+      kind: CustomResourceDefinition
+    patch: |-
+      - op: add
+        path: /metadata/annotations/argocd.argoproj.io~1sync-wave
+        value: "-9"
