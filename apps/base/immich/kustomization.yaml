@@ -4,4 +4,3 @@ resources:
   - ./immich/application.yaml
   - ./immich/immich-db-secret-sync.yaml
   - ./immich/immich-storage.yaml
-  - ./immich-db/immich-db.yaml
