@@ -2,3 +2,40 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base/authentik/
+  - ../../base/cnpg-cluster/restore/
+
+patches:
+  - target:
+      group: postgresql.cnpg.io
+      version: v1
+      kind: Cluster
+      name: app-db
+      namespace: database-system
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: authentik-db
+      - op: replace
+        path: /spec/managed/roles/0/name
+        value: authentik
+      - op: replace
+        path: /spec/managed/roles/0/passwordSecret/name
+        value: authentik-db-app
+      - op: replace
+        path: /spec/bootstrap/recovery/source
+        value: authentik-db
+      - op: replace
+        path: /spec/bootstrap/recovery/database
+        value: authentik
+      - op: replace
+        path: /spec/bootstrap/recovery/owner
+        value: authentik
+      - op: replace
+        path: /spec/backup/barmanObjectStore/destinationPath
+        value: s3://database-backup/authentik-db
+      - op: replace
+        path: /spec/externalClusters/0/name
+        value: authentik-db
+      - op: replace
+        path: /spec/externalClusters/0/barmanObjectStore/destinationPath
+        value: s3://database-backup/authentik-db

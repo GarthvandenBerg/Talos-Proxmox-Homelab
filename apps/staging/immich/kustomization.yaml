@@ -2,3 +2,52 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base/immich/
+  - ../../base/cnpg-cluster/restore/
+
+patches:
+  - target:
+      group: postgresql.cnpg.io
+      version: v1
+      kind: Cluster
+      name: app-db
+      namespace: database-system
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: immich-db
+      - op: replace
+        path: /spec/imageName
+        value: ghcr.io/tensorchord/cloudnative-vectorchord:16-0.3.0
+      - op: add
+        path: /spec/postgresql
+        value:
+          shared_preload_libraries:
+            - vchord.so
+            - pg_stat_statements
+      - op: replace
+        path: /spec/managed/roles/0/name
+        value: immich
+      - op: replace
+        path: /spec/managed/roles/0/passwordSecret/name
+        value: immich-db-app
+      - op: replace
+        path: /spec/bootstrap/recovery/source
+        value: immich-db
+      - op: replace
+        path: /spec/bootstrap/recovery/database
+        value: immich
+      - op: replace
+        path: /spec/bootstrap/recovery/owner
+        value: immich
+      - op: replace
+        path: /spec/storage/size
+        value: 20Gi
+      - op: replace
+        path: /spec/backup/barmanObjectStore/destinationPath
+        value: s3://database-backup/immich-db
+      - op: replace
+        path: /spec/externalClusters/0/name
+        value: immich-db
+      - op: replace
+        path: /spec/externalClusters/0/barmanObjectStore/destinationPath
+        value: s3://database-backup/immich-db
